@@ -24,7 +24,7 @@ declare global {
 app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: process.env.FRONTEND_,
   credentials: true
 }))
 app.use(passport.initialize())

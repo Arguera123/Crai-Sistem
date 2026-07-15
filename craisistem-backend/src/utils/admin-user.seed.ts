@@ -8,6 +8,7 @@ import { UserType } from "./user-type.constants";
 export const seedAdminUser = async () => {
   const userRepo = PostgresDataSource.getRepository(UserData);
   const roleRepo = PostgresDataSource.getRepository(Role);
+  const adminEmail = process.env.EMAIL_ADMIN
 
   const adminRole = await roleRepo.findOneBy({ name: Roles.ADMIN });
   if (!adminRole) {
@@ -18,7 +19,7 @@ export const seedAdminUser = async () => {
     id: "admin01",
     firstName: "Admin",
     lastName: "User",
-    email: "admin@example.com",
+    email: adminEmail,
     gender: "other",
     type: UserType.EMPLOYEE,
     faculty: "administration",

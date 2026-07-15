@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { useLogin } from "../hooks/useLogin";
 import { toast, ToastContainer } from "react-toastify"; 
 import login_photo from "../assets/login_photo.png";
 import logo from "../assets/logo.png";
@@ -17,13 +15,7 @@ const MicrosoftIcon = () => (
   </div>
 );
 
-interface LoginFormInputs {
-  email: string;
-}
-
 function LoginView() {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
-  const { mutate: login, isPending, error: loginError } = useLogin();
   
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -53,18 +45,6 @@ function LoginView() {
     }
   }, [ssoError]);
 
-  // Manejador para disparar errores del login temporal
-  useEffect(() => {
-    if (loginError) {
-      const message = loginError instanceof Error ? loginError.message : "Credenciales incorrectas, intente de nuevo.";
-      toast.error(message, { toastId: "login-error" });
-    }
-  }, [loginError]);
-
-  const onSubmit = (data: LoginFormInputs) => {
-    login(data.email); 
-  };
-
   const apiBaseUrl = import.meta.env.VITE_API_URL.replace("/api/v1", "");
 
   const handleMicrosoftLogin = () => {
@@ -87,51 +67,6 @@ function LoginView() {
               Gestión de Biblioteca y Centro de Aprendizaje
             </Typography>
           </div>
-
-          {/* ================================================================ */}
-          {/* INICIO SECCIÓN TEMPORAL: BORRAR TODO ESTO PARA PRODUCCIÓN */}
-          {/* ================================================================ */}
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <TextField
-              fullWidth
-              label="Correo Institucional"
-              variant="outlined"
-              className="bg-white/5 rounded-md"
-              slotProps={{
-                input: {
-                  className: "text-white",
-                },
-                inputLabel: {
-                  className: "text-white/70",
-                }
-              }}
-              {...register("email", { required: "El correo es requerido" })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              size="large"
-              type="submit"
-              disabled={isPending}
-              className="bg-white text-[#083C6C] py-3 font-bold rounded-lg hover:bg-gray-100 normal-case"
-            >
-              {isPending ? "Cargando..." : "Entrar temporal"}
-            </Button>
-          </form>
-
-          <div className="relative my-2">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-500"></span>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-[#083C6C] px-2 text-gray-300">O continuar con</span>
-            </div>
-          </div>
-          {/* ================================================================ */}
-          {/* FIN SECCIÓN TEMPORAL */}
-          {/* ================================================================ */}
 
           {/* BOTÓN INSTITUCIONAL DE MICROSOFT */}
           <Button

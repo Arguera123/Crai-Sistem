@@ -30,7 +30,7 @@ authRouter.get("/microsoft/callback",
   authController.microsoftCallback
 );
 
-authRouter.post("/register", authController.register);
-authRouter.post("/login", authController.login);
+// authRouter.post("/register", authController.register);
+// authRouter.post("/login", authController.login);
 
 authRouter.get("/whoami", authMiddleware.authentication, authController.whoami);
