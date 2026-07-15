@@ -1,0 +1,63 @@
+services:
+  # --- CONTENEDOR 1: BASE DE DATOS ---
+  db:
+    image: postgres:16-alpine
+    container_name: biblioteca_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend-net
+  backend:
+    ports:
+      - "5000:5000"
+    build:
+      context: ./craisistem-backend
+      dockerfile: Dockerfile
+    container_name: biblioteca_backend
+    restart: always
+    environment:  
+      NODE_ENV: ${NODE_ENV}
+      DB_HOST: ${DB_HOST}                  
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      FRONTEND_URL: ${FRONTEND_URL}
+      OUTLOOK_USER: ${OUTLOOK_USER}
+      OUTLOOK_PASSWORD: ${OUTLOOK_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - backend-net
+      - frontend-net
+  frontend:
+    build:
+      context: ./craisistem-frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: biblioteca_frontend
+    restart: always
+    ports:
+      - "80:80" 
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - backend
+    networks:
+      - frontend-net
+
+volumes:
+  pgdata: 
+
+networks:
+  backend-net:
+    driver: bridge
+  frontend-net:
+    driver: bridge
