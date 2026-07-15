@@ -1,0 +1,63 @@
+export type Alumno = {
+  CARNET: string;
+  NOMBRES: string;
+  APELLIDO: string;
+  TIPO: number;
+  SEXO?: string;
+  TELEFONO?: string;
+  DIRECCION?: string;
+  TELTRABAJO?: string;
+  LUGTRABAJO?: string;
+  DIRTRABAJO?: string;
+  GRADO?: string;
+  URLFOTO?: string;
+  URLFIRMA?: string;
+  OBSERVACIONES?: string;
+  computed: string;
+  ADDFOR: string;
+  ELIMINADO: number;
+  EMAIL?: string;
+  EXPIRACION?: string;
+  DECANATO?: string | number;
+};
+
+export type Empleado = {
+  idusr: string;
+  nombres: string;
+  apellidos: string;
+  tipo: number;
+  sexo: string;
+  telcasa: string;
+  dircasa: string;
+  teltrabajo: string;
+  unidad: string;
+  dirtrabajo: string;
+  grado: string;
+  urlfoto: string;
+  urlfirma: string;
+  observaciones: string;
+  fechaadd: string;
+  addfor: string;
+  eliminado: number;
+  email: string;
+  expiracion: string;
+  iddecanato: number;
+};
+
+export type Xpec = {
+  ID_EST: string;
+  IDENTIFICACION?: string;
+  NOMBRE: string;
+  APELLIDOS: string;
+  ESTADO: string;
+  CATEGORIA: any | null;
+  FACULTAD: any | null;
+  TIPO_PROGRAMA: any | null;
+  NBR_EDICION: string;
+  TELEFONO_PERSONAL?: string;
+  EMAIL_PERSONAL?: string;
+  FOTO: string | null;
+  FECHA_NACIMIENTO?: string;
+  SEDE?: string;
+  FECHA_FIN_EDICION: string;
+};
