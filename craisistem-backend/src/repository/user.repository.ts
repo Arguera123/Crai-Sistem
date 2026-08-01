@@ -1,10 +1,9 @@
-import { Index, Repository } from "typeorm"
-import PostgresDataSource from "../configs/db.config"
+import { Repository } from "typeorm"
+import PostgresDataSource from "../config/db.config"
 import { UserData } from "../models/user.entity"
 import { IUserRepository } from "./interfaces/user-repository.interface"
 import { TUserFilters } from "../models/types/ISearchFilters"
 import { SpecificationBuilder } from "./specifications/SpecificationBuilder"
-import { Device } from "../models/device.entity"
 import { UserDataSpecs } from "./specifications/UserSpecs"
 
 export class UserRepository implements IUserRepository{

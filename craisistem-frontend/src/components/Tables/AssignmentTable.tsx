@@ -26,22 +26,18 @@ export const AssignmentTable = () => {
   const [selectedWifi, setSelectedWifi] = useState<TWifiUserResponse | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Estados de filtros visuales y paginación
   const [visualFilters, setVisualFilters] = useState<TWifiUserFilters>({});
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: DEFAULT_PAGE_SIZE,
   });
 
-  // Aplicar Debounce a los filtros para evitar peticiones masivas al escribir
   const debouncedFilters = useDebounce(visualFilters, 500);
 
-  // Resetear la página a 0 cuando cambien los filtros
   useEffect(() => {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }, [debouncedFilters]);
 
-  // Limpieza y formateo de los filtros antes de enviarlos a la API
   const filters = useMemo(() => {
     const cleaned = Object.fromEntries(
       Object.entries(debouncedFilters).filter(
@@ -56,7 +52,6 @@ export const AssignmentTable = () => {
     };
   }, [debouncedFilters, pagination.pageIndex, pagination.pageSize]);
 
-  // Consumo del Hook adaptando estados de carga y sincronización en segundo plano
   const { data: response, isLoading, isFetching } = useAssignments(filters);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,16 +85,10 @@ export const AssignmentTable = () => {
   };
 
   const handleConfirmAssignment = async (userId: string, wifiUserId: string) => {
-    try {
-      await assignWifi({ userId, wifiUserId });
-      handleCloseModal();
-    } catch (error) {
-      console.error("Error en la asignación", error);
-      throw error; 
-    }
+    await assignWifi({ userId, wifiUserId });
+    handleCloseModal();
   };
 
-  // Pantalla de carga inicial limpia
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" py={10}>
@@ -110,7 +99,6 @@ export const AssignmentTable = () => {
 
   return (
     <Grid container spacing={2}>
-      {/* Sección Superior: Filtros + Botón de Acción Principal */}
       <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 2 }}>
         <Box sx={{ flexGrow: 1 }}>
           <FilterBar
@@ -138,7 +126,6 @@ export const AssignmentTable = () => {
         </Button>
       </Grid>
       
-      {/* Contenedor de la Tabla y Estado de Sincronización */}
       <Grid size={12} sx={{ position: "relative" }}>
         {isFetching && (
           <Box sx={{ 

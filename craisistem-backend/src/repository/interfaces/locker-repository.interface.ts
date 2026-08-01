@@ -1,7 +1,7 @@
 import { Locker } from "../../models/locker.entity";
 
 export interface ILockerRepository {
-  save(locker: Locker): void
+  save(locker: Locker): Promise<Locker>
   findById(id: number): Promise<Locker>
   find(
     page?: number,

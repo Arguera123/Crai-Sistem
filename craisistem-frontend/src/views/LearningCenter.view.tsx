@@ -78,11 +78,6 @@ export default function LearningCenter() {
           return "¡Dispositivo asignado con éxito!";
         },
       },
-      error: {
-        render({ data }: any) {
-          return data?.response?.data?.message || "Error al procesar el préstamo";
-        },
-      },
     });
   };
 
@@ -92,7 +87,6 @@ export default function LearningCenter() {
     toast.promise(releasePromise, {
       pending: "Finalizando sesión...",
       success: "Sesión cerrada correctamente",
-      error: "No se pudo finalizar la sesión",
     });
   };
 

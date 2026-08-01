@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { Locker } from "../models/locker.entity";
 import { ILockerRepository } from "./interfaces/locker-repository.interface";
 

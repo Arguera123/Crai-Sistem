@@ -1,9 +1,9 @@
 export enum Routes {
   AUTH = "/auth",
   CHECKIN = "/checkin",
-  DEVICE_LOAN = "/device-loan",
+  DEVICE_LOAN = "/loan-device",
   DEVICE = "/device",
-  LOCKER_LOAN = "/locker-loan",
+  LOCKER_LOAN = "/loan-locker",
   LOCKER = "/locker",
   USER = "/user",
   WIFI_USER = "/wifi-user",

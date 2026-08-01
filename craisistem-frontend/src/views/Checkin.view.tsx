@@ -45,8 +45,7 @@ export function StudentCheckinRegisterView() {
         reset();
         inputRef.current?.focus(); 
       }, 2000);
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Error al registrar ingreso");
+    } catch {
       setCarnet(""); 
     }
   };
@@ -56,18 +55,16 @@ export function StudentCheckinRegisterView() {
   return (
     <Container 
       maxWidth="sm" 
-      // 1. Spacing dinámico: Menos espacio arriba en pantallas pequeñas/tablets horizontales
       sx={{ 
         py: { xs: 4, sm: 6, md: 10 }, 
         display: "flex", 
         flexDirection: "column", 
         justifyContent: "center",
-        minHeight: "100vh" // Centrado vertical absoluto en pantallas de tablet
+        minHeight: "100vh" 
       }}
     >
       <Paper 
         elevation={6} 
-        // 2. Padding adaptativo y bordes más limpios para formato kiosco
         sx={{ 
           p: { xs: 3, sm: 5 }, 
           borderRadius: 4, 
@@ -75,7 +72,6 @@ export function StudentCheckinRegisterView() {
           transition: "all 0.3s ease-in-out"
         }}
       >
-        {/* 3. Título con tamaño responsivo */}
         <Typography 
           variant="h4" 
           sx={{ fontSize: { xs: "1.5rem", sm: "2rem" }, fontWeight: "800", mb: 3 }}
@@ -93,9 +89,6 @@ export function StudentCheckinRegisterView() {
             value={carnet}
             onChange={(e) => setCarnet(e.target.value)}
             autoComplete="off" 
-            // Tip de Tablet: Si se usa un lector físico, esto evita que se abra el teclado virtual de la tablet y estorbe
-            // Descomenta la siguiente línea si usas un lector láser USB/Bluetooth externo:
-            // inputMode="none"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -104,7 +97,6 @@ export function StudentCheckinRegisterView() {
               ),
               endAdornment: isPending && <CircularProgress size={20} />
             }}
-            // Input un poco más alto para facilitar la legibilidad a distancia en un soporte de tablet
             sx={{ 
               mb: 4,
               "& .MuiOutlinedInput-root": {
@@ -121,7 +113,7 @@ export function StudentCheckinRegisterView() {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            bgcolor: student ? "success.lightest" : "transparent", // Opcional: Feedback visual de fondo
+            bgcolor: student ? "success.lightest" : "transparent", 
             borderRadius: 3,
             p: 2
           }}
@@ -129,7 +121,6 @@ export function StudentCheckinRegisterView() {
           {student ? (
             <Fade in={!!student}>
               <Stack alignItems="center" spacing={3}>
-                {/* 4. Avatar más imponente en Tablets para verificación visual del guardia */}
                 <Avatar 
                   src={student.photo} 
                   sx={{ 

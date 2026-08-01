@@ -1,5 +1,5 @@
 import { In, Repository } from "typeorm";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { Role } from "../models/role.entity";
 import { IRoleRepository } from "./interfaces/role-repository.interface";
 import { Roles } from "../utils/roles.constant";

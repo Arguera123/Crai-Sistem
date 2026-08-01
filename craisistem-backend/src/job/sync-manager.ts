@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { SyncService } from '../services/sync.service';
+import { SyncService } from '../service/sync.service';
 
 export class SyncManager {
   private syncService: SyncService;

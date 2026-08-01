@@ -1,11 +1,10 @@
 import { IsNull, Not, Repository } from "typeorm";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { Loan } from "../models/loan.entity";
 import { ILoanRepository } from "./interfaces/loan-repository.interface";
 import { TLoanFilters } from "../models/types/ISearchFilters";
 import { SpecificationBuilder } from "./specifications/SpecificationBuilder";
 import { LoanSpecs } from "./specifications/LoanSpecs";
-import { UserData } from "../models/user.entity";
 
 export class LoanRepository implements ILoanRepository {
   private repo: Repository<Loan>;
@@ -107,6 +106,8 @@ export class LoanRepository implements ILoanRepository {
 
     builder
       .add(LoanSpecs.byDate(filters.date))
+      .add(LoanSpecs.byDateFrom(filters.dateFrom))
+      .add(LoanSpecs.byDateTo(filters.dateTo))
       .add(LoanSpecs.byUserId(filters.userId))
       .add(LoanSpecs.byHasCharge(filters.hasCharge))
       .add(LoanSpecs.byHasRelease(filters.hasRelease))
@@ -140,7 +141,7 @@ export class LoanRepository implements ILoanRepository {
     const loans = await this.repo.find({
       where: {
         user: { id: userId },
-        loanDevice: { loanId: Not(IsNull()) },
+        loanLocker: { loanId: Not(IsNull()) },
       },
       relations: ["user", "loanLocker", "loanLocker.locker", "release"],
     });

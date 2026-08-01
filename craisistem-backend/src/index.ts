@@ -1,4 +1,4 @@
-import PostgresDataSource from './configs/db.config';
+import PostgresDataSource from './config/db.config';
 import { scheduleReminderJob } from './job/email-reminder.job';
 import { SyncManager } from './job/sync-manager';
 import server from './server'
@@ -17,7 +17,6 @@ PostgresDataSource.initialize()
 
     await seedRoles();
     await seedAdminUser();
-    // await seedGeneralUsers();
     await seedLockers();
 
     server.listen(port, () => {

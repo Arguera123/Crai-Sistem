@@ -59,7 +59,6 @@ export default function LockersView() {
       Number(loan.locker.id) === Number(selectedLocker?.id),
   );
 
-  // 2. Manejo de Préstamo con Toast
   const handleConfirmLoan = async (userId: string, lockerId: string) => {
     const loanPromise = chargeLoan.mutateAsync({
       userId,
@@ -72,11 +71,6 @@ export default function LockersView() {
         render() {
           setSelectedLocker(null);
           return `Locker #${lockerId} asignado correctamente`;
-        },
-      },
-      error: {
-        render({ data }: any) {
-          return data?.response?.data?.message || "Error al asignar el locker";
         },
       },
     });
@@ -97,13 +91,6 @@ export default function LockersView() {
         render() {
           setSelectedLocker(null);
           return "Casillero liberado correctamente";
-        },
-      },
-      error: {
-        render({ data }: any) {
-          return (
-            data?.response?.data?.message || "Error al liberar el casillero"
-          );
         },
       },
     });

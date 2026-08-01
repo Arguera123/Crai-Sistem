@@ -12,12 +12,7 @@ export const uploadWifiUsersCSV = async (file: File) => {
 };
 
 export const assignWifiUser = async (wifiUserPayload: TWifiUserPayload) => {
-  try {
+  const { data } = await api.post("/wifi-user/assign", wifiUserPayload)
 
-    const { data } = await api.post("/wifi-user/assign", wifiUserPayload)
-
-    return data;
-  } catch (err) {
-    console.error("Error charge", err)
-  }
+  return data;
 }

@@ -5,25 +5,19 @@ export const useUserRoles = () => {
   const queryClient = useQueryClient();
 
   const assignRoleMutation = useMutation({
-    mutationFn: ({ userId, role }: { userId: string; role: string }) => 
+    mutationFn: ({ userId, role }: { userId: string; role: string }) =>
       assignRoleService(userId, role),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    onError: (error) => {
-      console.error("Error al asignar rol:", error);
-    }
   });
 
   const removeRoleMutation = useMutation({
-    mutationFn: ({ userId, role }: { userId: string; role: string }) => 
+    mutationFn: ({ userId, role }: { userId: string; role: string }) =>
       removeRoleService(userId, role),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    onError: (error) => {
-      console.error("Error al eliminar rol:", error);
-    }
   });
 
   return {

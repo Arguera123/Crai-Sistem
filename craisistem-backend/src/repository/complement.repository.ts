@@ -1,8 +1,9 @@
 import { Repository } from "typeorm";
 import { Complement } from "../models/complement.entity";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
+import { IComplementRepository } from "./interfaces/complement-repository.interface";
 
-export class ComplementRepository {
+export class ComplementRepository implements IComplementRepository {
   private repo: Repository<Complement>
 
   constructor() {

@@ -3,56 +3,38 @@ import type { IChargeLoanPayload, TDeviceLoanResponse } from "../types/loan";
 import type { TPaginatedResponse } from "../types/pagination";
 import type { TLoanFilters } from "../types/filters";
 
+const deviceLoan = "/loan-device"
+
 export const chargeDeviceLoanService = async (
   chargeLoanPayload: IChargeLoanPayload
 ) => {
-  try {
-    const { data } = await api.post("/device-loan/charge", chargeLoanPayload);
-    return data;
-  } catch (err) {
-    console.error("Error charge", err)
-    throw err
-  }
+  const { data } = await api.post(`${deviceLoan}/charge`, chargeLoanPayload);
+  return data;
 }
 
 export const releaseDeviceLoanService = async (id: string) => {
-  try {
-    const { data } = await api.post(`/device-loan/release/${id}`)
-    return data    
-  } catch (err) {
-    console.error("Error release", err)
-    throw err
-  }
+  const { data } = await api.post(`${deviceLoan}/release/${id}`)
+  return data
 }
 
 export const getActiveDeviceLoansService = async () => {
-  try {
-    const { data } = await api.get<TPaginatedResponse<TDeviceLoanResponse>>("/device-loan", {
-      params: {
-        hasDevice: true,
-        hasCharge: true,
-        hasRelease: false
-      }
-    })
+  const { data } = await api.get<TPaginatedResponse<TDeviceLoanResponse>>(deviceLoan, {
+    params: {
+      hasDevice: true,
+      hasCharge: true,
+      hasRelease: false
+    }
+  })
 
-    return data;
-  } catch (err) {
-    console.error("Error", err)
-    throw err
-  }
+  return data;
 }
 
 export const getDeviceLoanService = async (
   params: TLoanFilters
 ): Promise<TPaginatedResponse<TDeviceLoanResponse>> => {
-  try {
-    const { data } = await api.get<TPaginatedResponse<TDeviceLoanResponse>>("/device-loan", {
-      params
-    })
+  const { data } = await api.get<TPaginatedResponse<TDeviceLoanResponse>>(deviceLoan, {
+    params
+  })
 
-    return data;
-  } catch (err) {
-    console.error("Error obteniendo prestamos de dispositivos", err)
-    throw err
-  }
+  return data;
 }

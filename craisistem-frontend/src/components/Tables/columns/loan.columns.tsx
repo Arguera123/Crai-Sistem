@@ -1,19 +1,27 @@
-import { createColumnHelper, type ColumnDef,  } from "@tanstack/react-table";
+import { createColumnHelper, type ColumnDef } from "@tanstack/react-table";
 import { Avatar, Box, Typography } from "@mui/material";
-import type { TDeviceLoanResponse, TLoanResponse, TLockerLoanResponse } from "../../../types/loan";
+import type {
+  TDeviceLoanResponse,
+  TLoanResponse,
+  TLockerLoanResponse,
+} from "../../../types/loan";
 
-const createBaseLoanColumns = <T extends TLoanResponse>(): ColumnDef<T, any>[] => {
+const createBaseLoanColumns = <T extends TLoanResponse>(): ColumnDef<
+  T,
+  any
+>[] => {
   const baseHelper = createColumnHelper<T>();
 
   return [
     baseHelper.accessor((row) => row.user.id, {
-      id: "userId", 
+      id: "userId",
       header: "Carnet",
       size: 80,
     }) as ColumnDef<T, any>,
 
     baseHelper.accessor(
-      (row) => `${row.user.lastName.toUpperCase()} ${row.user.firstName.toUpperCase()}`,
+      (row) =>
+        `${row.user.lastName.toUpperCase()} ${row.user.firstName.toUpperCase()}`,
       {
         id: "userName",
         header: "Nombre",
@@ -29,14 +37,18 @@ const createBaseLoanColumns = <T extends TLoanResponse>(): ColumnDef<T, any>[] =
             </Box>
           );
         },
-      }
+      },
     ) as ColumnDef<T, any>,
 
     baseHelper.accessor((row) => row.date, {
       id: "date",
       header: "Fecha",
       size: 110,
-      cell: (info) => new Date(info.getValue() as string).toLocaleDateString(),
+      cell: (info) => {
+        const value = info.getValue() as string;
+        if (!value) return "";
+        return new Date(value).toLocaleDateString("es-ES", { timeZone: "UTC" });
+      },
     }) as ColumnDef<T, any>,
 
     baseHelper.accessor(
@@ -48,7 +60,7 @@ const createBaseLoanColumns = <T extends TLoanResponse>(): ColumnDef<T, any>[] =
         id: "chargeLibrarian",
         header: "Cargo",
         size: 160,
-      }
+      },
     ) as ColumnDef<T, any>,
 
     baseHelper.accessor((row) => row.charge?.startTime, {
@@ -76,7 +88,7 @@ const createBaseLoanColumns = <T extends TLoanResponse>(): ColumnDef<T, any>[] =
         id: "releaseLibrarian",
         header: "Descargo",
         size: 160,
-      }
+      },
     ) as ColumnDef<T, any>,
 
     baseHelper.accessor((row) => row.release?.endTime, {

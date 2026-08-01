@@ -1,9 +1,10 @@
 import { Repository } from "typeorm";
 import { Checkin } from "../models/checkin.entity";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { TCheckinFilters } from "../models/types/ISearchFilters";
+import { ICheckinRepository } from "./interfaces/checking-repository.interface";
 
-export class CheckinRepository {
+export class CheckinRepository implements ICheckinRepository {
   private repo: Repository<Checkin>
 
   constructor() {

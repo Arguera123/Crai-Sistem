@@ -1,4 +1,4 @@
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { UserData } from "../models/user.entity";
 import { Role } from "../models/role.entity";
 import { Roles } from "./roles.constant";

@@ -1,5 +1,5 @@
 import { Role } from "../models/role.entity";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { Roles } from "./roles.constant";
 
 export const seedRoles = async () => {

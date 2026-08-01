@@ -3,9 +3,9 @@ dotenv.config();
 import express from 'express'
 import morgan from 'morgan'
 import passport from "passport"
-import router from './routers/index.router'
-import { errorHandler } from './middlewares/error.middleware';
-import "./configs/microsoft.config"
+import router from './router/index.router'
+import { errorHandler } from './middleware/error.middleware';
+import "./config/microsoft.config"
 import { UserData } from './models/user.entity'
 import cors from "cors"
 import path from 'path'
@@ -24,7 +24,7 @@ declare global {
 app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: process.env.FRONTEND_,
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }))
 app.use(passport.initialize())

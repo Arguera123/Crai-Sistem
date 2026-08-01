@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { WifiUser } from "../models/wifi-user.entity";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { IwifiUserRepository as IWifiUserRepository } from "./interfaces/wifi-user-repository.interface";
 import { TWifiUserFilters } from "../models/types/ISearchFilters";
 import { SpecificationBuilder } from "./specifications/SpecificationBuilder";

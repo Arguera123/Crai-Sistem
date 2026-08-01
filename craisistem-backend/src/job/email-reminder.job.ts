@@ -1,8 +1,8 @@
 import cron from 'node-cron';
-import { ReminderService } from '../services/reminder.service';
-import { IEmailSender } from '../services/interfaces/email-service.interface';
+import { ReminderService } from '../service/reminder.service';
+import { IEmailSender } from '../service/interfaces/email-service.interface';
 import { LoanRepository } from '../repository/loan.repository';
-import { OutlookEmailSender } from '../services/outlook-email.service';
+import { OutlookEmailSender } from '../service/outlook-email.service';
 import dotenv from "dotenv";
 dotenv.config();
 

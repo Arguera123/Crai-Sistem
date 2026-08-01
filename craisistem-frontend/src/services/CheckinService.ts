@@ -6,26 +6,17 @@ import type { TPaginatedResponse } from "../types/pagination"
 export const postCheckinService = async (
   userId: string
 ): Promise<TPostCheckinResponse> => {
-  try {
-    const { data } = await api.post<TPostCheckinResponse>(`/checkin/${userId}`)    
-    
-    return data
-  } catch (err) {
-    console.error(err)
-    throw err
-  }
+  const { data } = await api.post<TPostCheckinResponse>(`/checkin/${userId}`)
+
+  return data
 }
 
 export const getCheckinService = async (
   filters: TCheckinFilters
 ): Promise<TPaginatedResponse<TCheckinResponse>> => {
-  try {
-    const { data } = await api.get<TPaginatedResponse<TCheckinResponse>>("/checkin", { 
-      params: filters  
-    })    
-    return data
-  } catch (err) {
-    console.error(err)
-    throw err
-  }
+  const { data } = await api.get<TPaginatedResponse<TCheckinResponse>>("/checkin", {
+    params: filters
+  })
+
+  return data
 }

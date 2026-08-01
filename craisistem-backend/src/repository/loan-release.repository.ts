@@ -1,8 +1,9 @@
 import { Repository } from "typeorm";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { LoanRelease } from "../models/loan-release.entity";
+import { ILoanReleaseRepository } from "./interfaces/loan-release-repository";
 
-export class LoanReleaseRepository {
+export class LoanReleaseRepository implements ILoanReleaseRepository {
   private repo: Repository<LoanRelease>
 
   constructor () {

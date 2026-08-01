@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { Device } from "../models/device.entity";
 import { IDeviceRepository } from "./interfaces/device-repository.interface";
 import { TDeviceFilters } from "../models/types/IDevice";

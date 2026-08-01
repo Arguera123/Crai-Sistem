@@ -1,18 +1,14 @@
 import { Grid, CircularProgress, Box, Paper, Typography, Button } from "@mui/material";
 import { useMemo, useState, useCallback } from "react";
 import AddIcon from "@mui/icons-material/Add";
-
 import { useDevice } from "../../hooks/useDevice";
 import { useCreateDevice, useUpdateDevice } from "../../hooks/useManipulateDevice";
-
 import { DataTable } from "./DataTable";
 import { PaginationControls } from "./PaginationControls";
 import { FilterBar } from "./FilterBar";
-
 import { useDebounce } from "../../hooks/useDebounce";
 import { DEVICE_FILTER_CONFIG } from "../../config/DeviceFilters.config";
 import { getDeviceColumns } from "./columns/device.columns";
-
 import type { TPagination } from "../../types/pagination";
 import type { IDevice, TCreateDevice, TUpdateDevice } from "../../types/device";
 import type { TDeviceFilters } from "../../types/filters";
@@ -61,7 +57,6 @@ export const DeviceTable = () => {
         onSuccess: () => setIsModalOpen(false),
       });
     } else {
-      console.log("Llamando a crear con:", data);
       const deviceData: TCreateDevice = {
         brand: data.brand || "", 
         state: data.state || "Disponible", 
@@ -70,7 +65,9 @@ export const DeviceTable = () => {
         inventory: data.inventory || "",
         operatingSystem: data.operatingSystem || "windows", 
       };
-      createDevice(deviceData);
+      createDevice(deviceData, {
+        onSuccess: () => setIsModalOpen(false),
+      });
     }
   };
 

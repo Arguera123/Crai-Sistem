@@ -1,4 +1,4 @@
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { Locker } from "../models/locker.entity";
 import { ResourceStates } from "./states.constant";
 

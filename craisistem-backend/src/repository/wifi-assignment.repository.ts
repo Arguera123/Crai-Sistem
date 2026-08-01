@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import PostgresDataSource from "../configs/db.config";
+import PostgresDataSource from "../config/db.config";
 import { WifiAssignment } from "../models/wifi-assignment.entity";
 import { UserData } from "../models/user.entity";
 import { WifiUser } from "../models/wifi-user.entity";
