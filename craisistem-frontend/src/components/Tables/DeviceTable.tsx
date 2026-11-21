@@ -61,16 +61,17 @@ export const DeviceTable = () => {
         onSuccess: () => setIsModalOpen(false),
       });
     } else {
-      console.log("Llamando a crear con:", data);
       const deviceData: TCreateDevice = {
         brand: data.brand || "", 
-        state: data.state || "Disponible", 
+        state: data.state || "free",
         section: data.section || "",
         model: data.model || "",
         inventory: data.inventory || "",
         operatingSystem: data.operatingSystem || "windows", 
       };
-      createDevice(deviceData);
+      createDevice(deviceData, {
+        onSuccess: () => setIsModalOpen(false),
+      });
     }
   };
 

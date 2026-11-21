@@ -15,7 +15,7 @@ export class CheckinController {
     try {
       const { identifier: userId } = req.params
       const checkin = await this.checkinService.save(userId as string)
-      res.status(200).json({ message: "Ingresado correctamente", checkin })
+      res.status(201).json({ message: "Ingresado correctamente", checkin })
     } catch (err) {
       next(err);
     }

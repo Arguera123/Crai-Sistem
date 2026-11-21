@@ -53,7 +53,7 @@ export default function WifiAssignDialog({ open, wifiUser, onClose, onConfirm }:
       await onConfirm(user.id, wifiUser.id);
       handleClose();
     } catch (err: any) {
-      setError(err.message || "Error al realizar la asignación");
+      setError(err?.response?.data?.message || err?.response?.data?.errors?.[0]?.message || err.message || "Error al realizar la asignación");
     } finally {
       setLoading(false);
     }

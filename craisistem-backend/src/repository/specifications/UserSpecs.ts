@@ -80,7 +80,7 @@ export const UserDataSpecs = {
         type: "user.type",
         faculty: "user.faculty",
         expirationDate: "user.expirationDate",
-        active: "user.active",
+        state: "user.state",
       };
 
       const column = orderMap[field];

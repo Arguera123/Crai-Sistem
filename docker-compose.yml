@@ -20,6 +20,11 @@ services:
       dockerfile: Dockerfile
     container_name: biblioteca_backend
     restart: always
+    # Carga TODAS las variables del .env (TOKEN_SECRET, MICROSOFT_*, UCA_API,
+    # UCA_TOKEN, API_URL...). Antes solo se pasaban algunas y el backend usaba
+    # valores por defecto inseguros.
+    env_file:
+      - .env
     environment:  
       NODE_ENV: ${NODE_ENV}
       DB_HOST: ${DB_HOST}                  

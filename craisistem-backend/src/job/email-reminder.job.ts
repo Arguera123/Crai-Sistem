@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const scheduleReminderJob = () => {
+  // Hora local de El Salvador (el servidor/contenedor normalmente corre en UTC)
   cron.schedule('58 6 * * *', async () => {
     try {
       const user: string = process.env.OUTLOOK_USER
@@ -21,5 +22,5 @@ export const scheduleReminderJob = () => {
     } catch (err) {
       console.log("Error al mandar los emails: ", err)
     }
-  });
+  }, { timezone: "America/El_Salvador" });
 };

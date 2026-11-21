@@ -15,6 +15,7 @@ export class LockerController {
       const { num } = req.body;
 
       await this.lockerService.save(num);
+      res.status(201).json({ message: "Casillero creado correctamente" });
     } catch (err) {
       next(err);
     }

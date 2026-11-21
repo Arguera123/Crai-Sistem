@@ -1,18 +1,34 @@
 import { body, query } from "express-validator";
 
 export const createLoanValidator = [
-  body("userId").exists().withMessage("userId is required"),
+  body("userId")
+    .exists().withMessage("userId es requerido")
+    .isString().withMessage("userId debe ser texto")
+    .trim()
+    .notEmpty().withMessage("userId no puede estar vacio"),
   body("resourceId")
-    .exists()
-    .withMessage("resourceId is required")
-    .isNumeric()
-    .withMessage("resourceId must be an numeric"),
+    .exists().withMessage("resourceId es requerido")
+    .isInt({ min: 1 }).withMessage("resourceId debe ser un numero entero"),
+];
+
+export const wifiAssignValidator = [
+  body("userId")
+    .exists().withMessage("userId es requerido")
+    .isString().withMessage("userId debe ser texto")
+    .trim()
+    .notEmpty().withMessage("userId no puede estar vacio"),
+  body("wifiUserId")
+    .exists().withMessage("wifiUserId es requerido")
+    .isString().withMessage("wifiUserId debe ser texto")
+    .trim()
+    .notEmpty().withMessage("wifiUserId no puede estar vacio"),
 ];
 
 const allowedOrderFields = [
   "date",
   "user",
   "device",
+  "locker",
   "chargeTime",
   "releaseTime",
 ];

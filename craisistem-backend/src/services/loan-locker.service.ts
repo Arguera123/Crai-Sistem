@@ -38,9 +38,9 @@ export class LoanLockerService {
   ) => {
     const user = await this.userRepository.findById(userId)
     if (!user) throw createHttpError(404, 'Usuario no encontrado!')
-    if (user.state === UserStates.INACTIVE) throw createHttpError(409, 'El usuario no esta inactivo!')
+    if (user.state !== UserStates.ACTIVE) throw createHttpError(409, 'El usuario esta inactivo!')
 
-    const locker = await this.lockerRepository.findById(lockerId)
+    const locker = await this.lockerRepository.findById(Number(lockerId))
     if (!locker) throw createHttpError(404, 'Casillero no encontrado!')
 
     if (locker.state !== ResourceStates.FREE) throw createHttpError(409, "El casillero ya esta en uso")
@@ -67,6 +67,8 @@ export class LoanLockerService {
 
     const checkin = new Checkin
     checkin.user = user
+    checkin.date = getElSalvadorDateObject()
+    checkin.time = getElSalvadorTime()
 
     locker.state = ResourceStates.OCCUPIED
     
@@ -82,6 +84,7 @@ export class LoanLockerService {
     const loan = await this.loanRepository.findById(loanId)
     if(!loan) throw createHttpError(404, 'Prestamo no encontrado!')
 
+    if(!loan.loanLocker?.locker) throw createHttpError(400, 'El prestamo indicado no corresponde a un casillero')
     if(loan.release) throw createHttpError(409, 'El prestamo ya se ha completado')
 
     const release = new LoanRelease()

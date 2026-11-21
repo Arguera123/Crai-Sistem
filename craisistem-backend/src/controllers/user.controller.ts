@@ -13,7 +13,7 @@ export class UserDataController {
       try {
         const user: TRegisterForm = req.body;
         await this.userService.register(user);
-        res.status(201).json({ message: "User registered" });
+        res.status(201).json({ message: "Usuario registrado" });
       } catch (err) {
         next(err);
       }
@@ -28,7 +28,7 @@ export class UserDataController {
       const { role } = req.body
       const { identifier: userId } = req.params
       await this.userService.assignRole(userId as string, role)
-      res.status(200).json({ message: "Roles added successfully" })
+      res.status(200).json({ message: "Rol asignado correctamente" })
     } catch (err) {
       next(err)
     }
@@ -43,7 +43,7 @@ export class UserDataController {
       const { role } = req.body
       const { identifier: userId } = req.params
       await this.userService.removeRole(userId as string, role)
-      res.status(200).json({ message: "Roles romoved successfully" })
+      res.status(200).json({ message: "Rol removido correctamente" })
     } catch (err) {
       next(err)
     }
@@ -87,9 +87,13 @@ export class UserDataController {
     res: Response,
     next: NextFunction
   ) => {
-    const manager = new SyncManager();
+    try {
+      const manager = new SyncManager();
 
-    await manager.startSync();
-    res.json({ message: "Sinconización manual completada" })
+      await manager.startSync();
+      res.status(200).json({ message: "Sincronización manual completada" })
+    } catch (err) {
+      next(err)
+    }
   }
 }

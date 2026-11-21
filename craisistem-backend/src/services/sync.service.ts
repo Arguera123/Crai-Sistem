@@ -36,9 +36,17 @@ export class SyncService {
     }
     
     const externalData = await fetchFn();
-    const externalIds = externalData.map((item: any) => 
-      item.CARNET || item.iduser || item.ID_EST
-    );
+
+    // Si la API externa fallo o no devolvio datos NO se desactiva a nadie:
+    // de lo contrario una caida de la API dejaria inactivos a todos los usuarios.
+    if (externalData.length === 0) {
+      console.warn(`Fuente ${type}: la API no devolvio registros, se omite la sincronizacion.`)
+      return
+    }
+
+    const externalIds = externalData
+      .map((item: any) => String(item.CARNET || item.idusr || item.ID_EST || "").trim())
+      .filter(Boolean);
 
     await this.userRepo.createQueryBuilder()
       .update(UserData)
@@ -48,10 +56,20 @@ export class SyncService {
       .execute();
 
     for (const item of externalData) {
-      const mapped = mapperFn(item);
+      let mapped: Partial<UserData>
+      try {
+        mapped = mapperFn(item);
+      } catch (err) {
+        console.error(`Registro invalido en fuente ${type}, se omite:`, err);
+        continue
+      }
 
-      mapped.state = UserStates.ACTIVE;
-      mapped.roles = [userRole]
+      // Se conservan los roles que el usuario ya tenia (admin, librarian, etc.).
+      // Antes se reemplazaban por [user] en cada sincronizacion.
+      const existing = await this.userRepo.findOne({ where: { id: mapped.id }, relations: ["roles"] })
+      const currentRoles = existing?.roles ?? []
+      const hasUserRole = currentRoles.some(r => r.name === Roles.USER)
+      mapped.roles = hasUserRole ? currentRoles : [...currentRoles, userRole]
 
       await this.userRepo.save(mapped)
     }

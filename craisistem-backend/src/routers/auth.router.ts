@@ -5,8 +5,9 @@ import { AuthMiddleware } from "../middlewares/auth.middleware";
 import { UserRepository } from "../repository/user.repository";
 import { AuthService } from "../services/auth.service";
 import { RoleRepository } from "../repository/role.repository";
-import { generateJWT } from "../utils/jwt"; 
-import { UserData } from "../models/user.entity";
+import { validathor } from "../middlewares/validathor.middleware";
+import { loginValidator, registerValidator } from "../validators/auth.validator";
+import { Roles } from "../utils/roles.constant";
 
 import "../configs/microsoft.strategy";
 
@@ -30,7 +31,16 @@ authRouter.get("/microsoft/callback",
   authController.microsoftCallback
 );
 
-authRouter.post("/register", authController.register);
-authRouter.post("/login", authController.login);
+// Crea un usuario con rol ADMIN: solo otro administrador puede hacerlo.
+authRouter.post(
+  "/register",
+  authMiddleware.authentication,
+  authMiddleware.authorization(Roles.ADMIN),
+  registerValidator,
+  validathor,
+  authController.register
+);
+
+authRouter.post("/login", loginValidator, validathor, authController.login);
 
 authRouter.get("/whoami", authMiddleware.authentication, authController.whoami);

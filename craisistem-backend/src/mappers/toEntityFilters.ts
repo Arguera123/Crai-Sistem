@@ -35,7 +35,8 @@ export const mapUserFilters = (query: any): TUserFilters => ({
   email: query.email || undefined,
   type: query.type || undefined,
   faculty: query.faculty || undefined,
-  state: query.state || undefined
+  state: query.state || undefined,
+  order: query.order || undefined
 })
 
 export const mapDeviceFilters = (query: any): TDeviceFilters => ({

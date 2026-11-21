@@ -29,7 +29,7 @@ export const DeviceSpecs = {
 
   byInventory: (inventory: string) => (query: SelectQueryBuilder<Device>) => {
     if (!inventory) return 
-    query.andWhere("device.inventary = :inventory", { inventory: inventory })
+    query.andWhere("device.inventory = :inventory", { inventory: inventory })
   },
 
   byOperatingSystem: (operatingSystem: OSEnum) => (query: SelectQueryBuilder<Device>) => {

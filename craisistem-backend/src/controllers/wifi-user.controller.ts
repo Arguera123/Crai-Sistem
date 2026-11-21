@@ -11,7 +11,7 @@ export class WifiUserController {
       const result = await this.wifiUserService.import(req.file);
 
       res.status(200).json({
-        message: `${result.inserted} users inserted, ${result.skipped} skipped`,
+        message: `${result.inserted} usuarios insertados, ${result.skipped} omitidos`,
         ...result
       });
     } catch (error) {
@@ -45,7 +45,7 @@ export class WifiUserController {
       const { userId, wifiUserId } = req.body
 
       await this.wifiUserService.assignToUser(librarian, userId, wifiUserId) 
-      res.status(200).json({ message: "Usuario asignado correctamente" })
+      res.status(201).json({ message: "Usuario asignado correctamente" })
     } catch (err) {
       next(err)
     }

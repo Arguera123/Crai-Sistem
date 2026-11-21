@@ -25,7 +25,10 @@ export class AuthService {
 
     const userExist = await this.userRepository.findById(id);
 
-    if (userExist) throw createHttpError(409, "User already exist!");
+    if (userExist) throw createHttpError(409, "Ya existe un usuario con ese id");
+
+    const emailExist = await this.userRepository.findByEmail(userData.email);
+    if (emailExist) throw createHttpError(409, "Ya existe un usuario con ese correo");
 
     const userRole = await this.roleRepository.findByName(Roles.ADMIN);
 
@@ -33,16 +36,26 @@ export class AuthService {
 
     const userToSave = toUserData(userData);
     userToSave.roles = [userRole];
+    userToSave.faculty = "N/A";
 
     await this.userRepository.save(userToSave);
   };
 
   public login = async (userData: TLoginForm): Promise<string> => {
-    const { email } = userData;
+    if (process.env.ENABLE_EMAIL_LOGIN === "false") {
+      throw createHttpError(403, "El inicio de sesion por correo esta deshabilitado. Use su cuenta Microsoft.");
+    }
+
+    const email = userData?.email?.trim();
 
     const user = await this.userRepository.findByEmail(email);
 
-    if (!user) throw createHttpError(401, "Invalid email");
+    if (!user) throw createHttpError(401, "Correo no registrado");
+
+    const roleNames = (user.roles ?? []).map((r) => r.name.toLowerCase());
+    if (!this.hasFunctionalRole(roleNames)) {
+      throw createHttpError(403, "El usuario no tiene permisos para acceder al sistema");
+    }
 
     const token = generateJWT({ email: user.email, sub: user.id });
 
@@ -54,7 +67,7 @@ export class AuthService {
   public whoami = async (req: Request): Promise<TWhoamiResponse> => {
     const user = req.user_data;
 
-    const roles: Role[] = req.user_data.roles;
+    const roles: Role[] = user.roles ?? [];
     const roleNames = roles.map((_r) => _r.name);
 
     const userResponse: TWhoamiResponse = {
@@ -77,12 +90,13 @@ export class AuthService {
   public processMicrosoftLogin = (user: UserData): MicrosoftAuthResult => {
     const roleNames = user.roles.map((r) => r.name.toLowerCase());
 
-    if (!this.hasFunctionalRole(roleNames)) throw createHttpError
+    if (!this.hasFunctionalRole(roleNames)) {
+      return { error: "El usuario no tiene permisos para acceder al sistema" };
+    }
 
     const token = generateJWT({
-      id: user.id,
+      sub: user.id,
       email: user.email,
-      roles: roleNames,
     });
 
     return { token };

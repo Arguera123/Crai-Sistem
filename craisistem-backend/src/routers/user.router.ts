@@ -5,7 +5,7 @@ import { UserDataController } from "../controllers/user.controller";
 import { UserRepository } from "../repository/user.repository";
 import { Roles } from "../utils/roles.constant";
 import { RoleRepository } from "../repository/role.repository";
-import { roleActionValidator, userFiltersValidator } from "../validators/user.validator";
+import { createUserValidator, roleActionValidator, userFiltersValidator } from "../validators/user.validator";
 import { validathor } from "../middlewares/validathor.middleware";
 import { validatePagination } from "../validators/comon-validator";
 
@@ -28,10 +28,12 @@ userRouter.get(
   userController.find
 )
 
+// La usan Learning Center (prestamo de equipo), Recepcion (prestamo de casillero)
+// y Bibliotecario (asignacion de WiFi) para mostrar los datos del usuario.
 userRouter.get(
   '/:identifier',
   authMiddleware.authentication,
-  authMiddleware.authorization(Roles.LEARNING_CENTER),
+  authMiddleware.authorization(Roles.LEARNING_CENTER, Roles.RECEPTION, Roles.LIBRARIAN),
   userController.findById
 )
 
@@ -48,6 +50,8 @@ userRouter.post(
   '/',
   authMiddleware.authentication,
   authMiddleware.authorization(Roles.LIBRARIAN),
+  createUserValidator,
+  validathor,
   userController.register
 )
 

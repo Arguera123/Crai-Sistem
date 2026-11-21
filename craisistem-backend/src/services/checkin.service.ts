@@ -6,6 +6,7 @@ import { TCheckinFilters } from "../models/types/ISearchFilters";
 import { TCheckinResponse } from "../models/types/ICheckin";
 import { toCheckinResponse } from "../mappers/toCheckinResponse";
 import { UserStates } from "../utils/states.constant";
+import { getElSalvadorDateObject, getElSalvadorTime } from "../utils/dataTime";
 
 export class CheckinService {
   constructor (
@@ -16,10 +17,13 @@ export class CheckinService {
   public save = async (userId: string) => {
     const user = await this.userRepository.findById(userId)
     if (!user) throw createHttpError(404, "Usuario no encontrado!")
-    if (user.state !== UserStates.ACTIVE) throw createHttpError(409, 'El usuario no esta activo!')
+    if (user.state !== UserStates.ACTIVE) throw createHttpError(409, 'El usuario esta inactivo!')
 
     const checkin = new Checkin
     checkin.user = user
+    // Fecha y hora de El Salvador (CURRENT_DATE de Postgres usa la zona del servidor, normalmente UTC)
+    checkin.date = getElSalvadorDateObject()
+    checkin.time = getElSalvadorTime()
 
     const savedCheckin = await this.checkinRepository.save(checkin)
 

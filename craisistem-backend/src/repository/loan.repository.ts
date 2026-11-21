@@ -5,7 +5,7 @@ import { ILoanRepository } from "./interfaces/loan-repository.interface";
 import { TLoanFilters } from "../models/types/ISearchFilters";
 import { SpecificationBuilder } from "./specifications/SpecificationBuilder";
 import { LoanSpecs } from "./specifications/LoanSpecs";
-import { UserData } from "../models/user.entity";
+import { getElSalvadorDateObject } from "../utils/dataTime";
 
 export class LoanRepository implements ILoanRepository {
   private repo: Repository<Loan>;
@@ -83,15 +83,20 @@ export class LoanRepository implements ILoanRepository {
     });
   };
 
-  public findActiveLoans = async () => {
-    const today = new Date().toISOString().split("T")[0];
-    return await this.repo.find({
-      where: {
-        release: false,
-        date: today as unknown as Date,
-      },
-      relations: ["user"],
-    });
+  /** Prestamos del dia (hora de El Salvador) que aun no han sido liberados. */
+  public findActiveLoans = async (): Promise<Loan[]> => {
+    const today = getElSalvadorDateObject();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+
+    return await this.repo
+      .createQueryBuilder("loan")
+      .leftJoinAndSelect("loan.user", "user")
+      .leftJoin("loan.release", "release")
+      .where("loan.date = :today", { today: `${yyyy}-${mm}-${dd}` })
+      .andWhere("release.loanId IS NULL")
+      .getMany();
   };
 
   private buildBaseLoanQuery(filters: TLoanFilters) {
@@ -107,6 +112,8 @@ export class LoanRepository implements ILoanRepository {
 
     builder
       .add(LoanSpecs.byDate(filters.date))
+      .add(LoanSpecs.byDateFrom(filters.dateFrom))
+      .add(LoanSpecs.byDateTo(filters.dateTo))
       .add(LoanSpecs.byUserId(filters.userId))
       .add(LoanSpecs.byHasCharge(filters.hasCharge))
       .add(LoanSpecs.byHasRelease(filters.hasRelease))
@@ -140,7 +147,7 @@ export class LoanRepository implements ILoanRepository {
     const loans = await this.repo.find({
       where: {
         user: { id: userId },
-        loanDevice: { loanId: Not(IsNull()) },
+        loanLocker: { loanId: Not(IsNull()) },
       },
       relations: ["user", "loanLocker", "loanLocker.locker", "release"],
     });

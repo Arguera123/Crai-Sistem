@@ -10,7 +10,6 @@ export const getLockerLoanService = async (
     const { data } = await api.get<TPaginatedResponse<TLockerLoanResponse>>("/locker-loan", {
       params
     })    
-    console.log(data)
     return data
   } catch (err) {
     console.error(err)
@@ -44,9 +43,9 @@ export const getActiveLockerLoansService = async () => {
   try {
     const { data } = await api.get<TPaginatedResponse<TLockerLoanResponse>>("/locker-loan", {
       params: {
-        hasLocker: true,
         hasCharge: true,
-        hasRelease: false
+        hasRelease: false,
+        limit: 200
       }
     })
 

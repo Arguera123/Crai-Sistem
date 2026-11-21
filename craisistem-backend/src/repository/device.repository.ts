@@ -52,6 +52,7 @@ export class DeviceRepository implements IDeviceRepository {
       .add(DeviceSpecs.byInventory(filters.inventory))
       .add(DeviceSpecs.byModel(filters.model))
       .add(DeviceSpecs.byState(filters.state))
+      .add(DeviceSpecs.bySection(filters.section))
       .add(DeviceSpecs.byOperatingSystem(filters.operatingSystem))
       .add(DeviceSpecs.byOrder(filters.order))
 

@@ -19,7 +19,7 @@ export class LockerLoanController {
 
       await this.lockerLoanService.chargeLoan(librarian, userId, resourceId);
 
-      res.status(200).json({ message: "Loan registered correctly" });
+      res.status(201).json({ message: "Prestamo registrado correctamente" });
     } catch (err) {
       next(err);
     }
@@ -36,7 +36,7 @@ export class LockerLoanController {
 
       await this.lockerLoanService.releaseLoan(user, identifier as string);
 
-      res.status(200).json({ message: "Loan completed correctly" });
+      res.status(200).json({ message: "Prestamo finalizado correctamente" });
     } catch (err) {
       next(err);
     }

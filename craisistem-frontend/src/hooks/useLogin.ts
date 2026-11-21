@@ -17,8 +17,8 @@ export const useLogin = () => {
 
         queryClient.invalidateQueries({ queryKey: ['whoami'] });
 
-        navigate("/learning-center/prestamos");
-        window.location.href = "/learning-center/prestamos";
+        navigate("/");
+        window.location.href = "/";
         
         console.log("Login exitoso y navegación iniciada");
       } else {

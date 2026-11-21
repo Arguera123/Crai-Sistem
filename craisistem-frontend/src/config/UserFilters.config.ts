@@ -26,11 +26,11 @@ export const USER_FILTER_CONFIG: TFilterConfig<TUserFilters> = {
       { label: "Empleado", value: "employee" },
       { label: "Xpec", value: "xpec" },
       { label: "Lector Ocasional Privado", value: "4"},
-      { label: "Lector Ocasional Públio", value: "5" },
+      { label: "Lector Ocasional Público", value: "5" },
       { label: "Investigador Privado 6 Meses", value: "6"},
-      { label: "Cortesia", value: "8" },
-      { label: "Hijos de Empleados", value: "9" },
-      { label: "Investigador Privado 1 Meses", value: "17" }
+      { label: "Investigador Privado 1 Mes", value: "8" },
+      { label: "Cortesía", value: "9" },
+      { label: "Hijos de Empleados", value: "17" }
     ] 
   },
   faculty: {

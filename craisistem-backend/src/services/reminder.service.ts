@@ -14,6 +14,7 @@ export class ReminderService {
 
     for (const loan of activeLoans) {
       const user: UserData = loan.user;
+      if (!user?.email) continue;
       await this.emailSender.send(
         user.email,
         "Recordatorio de devolución de préstamo",

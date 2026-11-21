@@ -1,19 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { assignWifiUser, uploadWifiUsersCSV } from "../services/WifiService";
 import type { TWifiUserPayload } from "../types/wifiUser";
+import { toast } from "react-toastify";
 
 export const useUploadWifiCSV = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: uploadWifiUsersCSV,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["assignments"] });
-      alert("Usuarios cargados exitosamente");
+      toast.success(data?.message || "Usuarios cargados exitosamente");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Error al subir CSV:", error);
-      alert("Error al cargar el archivo CSV");
+      toast.error(error?.response?.data?.message || "Error al cargar el archivo CSV");
     }
   });
 };

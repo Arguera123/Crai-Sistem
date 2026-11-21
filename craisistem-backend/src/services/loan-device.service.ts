@@ -33,10 +33,10 @@ export class LoanDeviceService {
     deviceId: number
   ) => {
     const user = await this.userRepository.findById(userId) 
-    if (!user) throw createHttpError(404, 'Usuario no entontrado!')
-    if (user.state === UserStates.INACTIVE) throw createHttpError(409, 'El usuario no esta inactivo!')
+    if (!user) throw createHttpError(404, 'Usuario no encontrado!')
+    if (user.state !== UserStates.ACTIVE) throw createHttpError(409, 'El usuario esta inactivo!')
 
-    const device = await this.deviceRepository.findById(deviceId)
+    const device = await this.deviceRepository.findById(Number(deviceId))
     if (!device) throw createHttpError(404, 'Equipo no encontrado!')
 
     if (device.state !== ResourceStates.FREE) throw createHttpError(409, "El equipo ya esta en uso")
@@ -74,7 +74,8 @@ export class LoanDeviceService {
     const loan = await this.loanRepository.findById(loanId)
     if(!loan) throw createHttpError(404, 'Prestamo no encontrado!')
 
-    if(loan.release) throw createHttpError(409, 'El prestamo ya ha se ha completado!')
+    if(!loan.loanDevice?.device) throw createHttpError(400, 'El prestamo indicado no corresponde a una computadora')
+    if(loan.release) throw createHttpError(409, 'El prestamo ya se ha completado!')
 
     const release = new LoanRelease();
     release.loan = loan

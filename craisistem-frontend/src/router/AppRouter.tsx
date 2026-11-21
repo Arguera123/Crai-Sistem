@@ -11,7 +11,7 @@ import { DevicesMangerView } from "../views/DeviceManager";
 import { CheckinQueryView } from "../views/CheckinQuery.view";
 import { StudentCheckinRegisterView } from "../views/Checkin.view";
 import { Roles } from "../utils/user-states.constants";
-import { ProtectedRoute, RoleGuard } from "../components/ProtectedRoute";
+import { HomeRedirect, ProtectedRoute, RoleGuard } from "../components/ProtectedRoute";
 
 export default function AppRouter() {
   return (
@@ -22,10 +22,7 @@ export default function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           {/* Redirección inicial */}
-          <Route
-            index
-            element={<Navigate to="/learning-center/prestamos" replace />}
-          />
+          <Route index element={<HomeRedirect />} />
 
           {/* RUTAS DE USUARIOS */}
           <Route
@@ -53,7 +50,6 @@ export default function AppRouter() {
           >
             <Route path="prestamos" element={<Lockers />} />
             <Route path="tabla" element={<LockerLoanQueryView />} />
-            <Route path="manage" element={<DevicesMangerView />} />
           </Route>
 
           {/* RUTAS DE CHECKIN */}

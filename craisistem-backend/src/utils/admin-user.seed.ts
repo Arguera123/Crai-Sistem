@@ -14,11 +14,12 @@ export const seedAdminUser = async () => {
     throw new Error('El rol admin no existe. Por favor seedéalo primero.');
   }
 
+  // Configurable por .env para no depender de un correo conocido publicamente
   const adminUser = userRepo.create({
-    id: "admin01",
+    id: process.env.ADMIN_ID || "admin01",
     firstName: "Admin",
     lastName: "User",
-    email: "admin@example.com",
+    email: process.env.ADMIN_EMAIL || "admin@example.com",
     gender: "other",
     type: UserType.EMPLOYEE,
     faculty: "administration",

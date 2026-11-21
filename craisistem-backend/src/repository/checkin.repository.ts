@@ -32,8 +32,14 @@ export class CheckinRepository {
       query.andWhere("checkin.time >= :timeFrom", { timeFrom: filters.timeFrom })
     if (filters.timeTo)
       query.andWhere("checkin.time <= :timeTo", { timeTo: filters.timeTo })
+    if (filters.userId)
+      query.andWhere("user.id = :userId", { userId: filters.userId })
 
-    query.skip((page - 1) * limit).take(limit)
+    query
+      .orderBy("checkin.date", "DESC")
+      .addOrderBy("checkin.time", "DESC")
+      .skip((page - 1) * limit)
+      .take(limit)
 
     const [data, total] = await query.getManyAndCount();
 

@@ -1,4 +1,5 @@
 import { body, query } from "express-validator";
+export { registerValidator as createUserValidator } from "./auth.validator";
 import { Roles } from "../utils/roles.constant";
 import { UserStates } from "../utils/states.constant";
 
@@ -22,7 +23,8 @@ export const allowedUserOrderFields = [
   "email",
   "type",
   "faculty",
-  "active",
+  "expirationDate",
+  "state",
 ];
 
 export const userFiltersValidator = [

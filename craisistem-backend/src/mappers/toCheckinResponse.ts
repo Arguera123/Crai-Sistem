@@ -1,13 +1,7 @@
+import { getPhotoUrl } from "../utils/photo-url";
 import { Checkin } from "../models/checkin.entity";
 import { TCheckinResponse } from "../models/types/ICheckin";
-import { saveBase64Image } from "../utils/saveBase64Image";
 
-const getPhotoUrl = (photoPath: string | null | undefined): string | null => {
-  if (!photoPath) return null;
-  
-  const baseUrl = process.env.API_URL || 'http://localhost:8080';
-  return `${baseUrl}${photoPath}`;
-};
 
 export const toCheckinResponse = (
   checkin: Checkin

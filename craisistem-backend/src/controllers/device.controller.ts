@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import createHttpError from "http-errors";
 import { TCreateDevice, TUpdateDevice } from "../models/types/IDevice";
 import { DeviceService } from "../services/device.service";
 import { mapDeviceFilters } from "../mappers/toEntityFilters";
@@ -16,9 +17,9 @@ export class DeviceController {
     try {
       const deviceDTO: TCreateDevice = req.body;
       
-      this.deviceService.save(deviceDTO)
-      
-      res.status(200).json({ message: "Device successfully registered" })
+      await this.deviceService.save(deviceDTO)
+
+      res.status(201).json({ message: "Computadora registrada correctamente" })
     } catch (err) {
       next(err)
     }
@@ -50,7 +51,10 @@ export class DeviceController {
       const { identifier: deviceId } = req.params
       const deviceUpdate: TUpdateDevice = req.body
 
-      await this.deviceService.update(Number(deviceId), deviceUpdate)
+      const id = Number(deviceId)
+      if (!Number.isInteger(id) || id < 1) throw createHttpError(400, "El id del equipo debe ser un numero entero")
+
+      await this.deviceService.update(id, deviceUpdate)
       res.status(200).json({ message: "Computadora actualizada correctamente" })
     } catch (err) {
       next(err)

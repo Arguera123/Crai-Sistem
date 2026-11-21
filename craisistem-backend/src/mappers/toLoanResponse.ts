@@ -1,13 +1,8 @@
+import { getPhotoUrl } from "../utils/photo-url";
 import { OSEnum } from "../models/device.entity";
 import { Loan } from "../models/loan.entity";
 import { TDeviceLoanResponse, TLoanResponse, TLockerLoanResponse } from "../models/types/ILoans";
 
-const getPhotoUrl = (photoPath: string | null | undefined): string | null => {
-  if (!photoPath) return null;
-  
-  const baseUrl = process.env.API_URL || 'http://localhost:8080';
-  return `${baseUrl}${photoPath}`;
-};
 
 const toLoanResponse = (
   loan: Loan

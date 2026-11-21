@@ -26,7 +26,7 @@ export class SyncManager {
     cron.schedule('0 0 * * *', async () => {
       console.log('Ejecutando sincronización programada...');
       await this.startSync();
-    });
+    }, { timezone: "America/El_Salvador" });
 
     console.log('Cron Job programado: Medianoche cada día.');
   }

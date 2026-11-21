@@ -6,7 +6,7 @@ export const DEVICE_FILTER_CONFIG: TFilterConfig<TDeviceFilters> = {
     label: "ID Dispositivo",
     type: "text", // Usamos text para que el debounce sea más fluido
   },
-  inventary: {
+  inventory: {
     label: "N° Inventario",
     type: "text",
   },
@@ -37,6 +37,7 @@ export const DEVICE_FILTER_CONFIG: TFilterConfig<TDeviceFilters> = {
     options: [
       { label: "Disponible", value: "free" },
       { label: "Ocupado", value: "occupied" },
+      { label: "Mantenimiento", value: "maintenance" },
     ],
   },
 };

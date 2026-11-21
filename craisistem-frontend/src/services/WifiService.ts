@@ -18,6 +18,7 @@ export const assignWifiUser = async (wifiUserPayload: TWifiUserPayload) => {
 
     return data;
   } catch (err) {
-    console.error("Error charge", err)
+    console.error("Error al asignar usuario wifi", err)
+    throw err
   }
 }

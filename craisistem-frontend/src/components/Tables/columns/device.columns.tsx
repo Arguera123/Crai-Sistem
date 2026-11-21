@@ -70,11 +70,12 @@ export const getDeviceColumns = (onEdit: (device: IDevice) => void) => [
     cell: (info) => {
       const state = info.getValue()?.toLowerCase();
       const isFree = state === "free" || state === "disponible";
+      const isMaintenance = state === "maintenance";
       return (
         <Chip
-          label={isFree ? "Disponible" : "Ocupado"}
+          label={isFree ? "Disponible" : isMaintenance ? "Mantenimiento" : "Ocupado"}
           size="small"
-          color={isFree ? "success" : "error"}
+          color={isFree ? "success" : isMaintenance ? "warning" : "error"}
           sx={{ fontWeight: 'bold' }}
         />
       );

@@ -13,6 +13,6 @@ export const validatePagination = [
     .withMessage('page debe ser un numero entero mayor o igual a 1'),
   query('limit')
     .optional()
-    .isInt({ min: 10 })
-    .withMessage('limit debe ser un número entero entre 1 y 100')
+    .isInt({ min: 1, max: 200 })
+    .withMessage('limit debe ser un número entero entre 1 y 200')
 ]

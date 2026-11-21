@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { v4 as uuid } from 'uuid';
+import { randomUUID as uuid } from 'crypto';
 
 export const saveBase64Image = (
   base64: string,

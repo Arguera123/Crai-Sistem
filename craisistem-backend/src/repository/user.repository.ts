@@ -51,7 +51,7 @@ export class UserRepository implements IUserRepository{
       .add(UserDataSpecs.byType(filters.type))
       .add(UserDataSpecs.byFaculty(filters.faculty))
       .add(UserDataSpecs.byState(filters.state))
-      .add(UserDataSpecs.byOrder())
+      .add(UserDataSpecs.byOrder(filters.order))
 
     builder.build(query);
 

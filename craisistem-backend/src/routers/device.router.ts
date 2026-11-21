@@ -4,7 +4,7 @@ import { AuthMiddleware } from "../middlewares/auth.middleware";
 import { DeviceRepository } from "../repository/device.repository";
 import { DeviceService } from "../services/device.service";
 import { validathor } from "../middlewares/validathor.middleware";
-import { createDeviceValidator, updateDeviceValidator } from "../validators/device.validator";
+import { createDeviceValidator, deviceFiltersValidator, updateDeviceValidator } from "../validators/device.validator";
 import { Roles } from "../utils/roles.constant";
 import { idInParamsValidator, validatePagination } from "../validators/comon-validator";
 
@@ -30,6 +30,7 @@ deviceRouter.get(
   authMiddleware.authentication,
   authMiddleware.authorization(Roles.LEARNING_CENTER),
   validatePagination,
+  deviceFiltersValidator,
   validathor,
   deviceController.find
 )

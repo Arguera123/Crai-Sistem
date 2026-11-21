@@ -6,11 +6,13 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  const status = err.status || 500;
+  // Errores de multer (p. ej. archivo demasiado grande) y de parseo JSON
+  // traen su propio codigo; cualquier otro error desconocido es un 500.
+  const status = err.status || err.statusCode || (err.name === 'MulterError' ? 400 : 500);
 
   const message =
     status === 500
-      ? 'Error del servior'
+      ? 'Error del servidor'
       : err.message || 'Algo salio mal';
 
   console.error(`[${req.method}] ${req.originalUrl} -> ${message}`);

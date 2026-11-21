@@ -28,7 +28,7 @@ export class AuthMiddleware {
 
       const payload = verifyJWT(token)
 
-      if(!payload) throw createHttpError(401, "Usuario no autenticado D")
+      if(!payload) throw createHttpError(401, "Usuario no autenticado")
 
       const email = String(payload['email']);
 
@@ -47,17 +47,18 @@ export class AuthMiddleware {
     }
   }
 
-  public authorization = (roleRequired: Roles) => {
+  /** Permite el acceso si el usuario tiene ALGUNO de los roles indicados (o es admin). */
+  public authorization = (...rolesAllowed: Roles[]) => {
     return (
       req: Request, 
       res: Response, 
       next: NextFunction
     ) => {
       try {
-        const roles: Role[] = req.user_data.roles 
+        const roles: Role[] = req.user_data?.roles ?? []
         const roleNames = roles.map(_r => _r.name)
 
-        const isAuth = roleNames.includes(roleRequired)
+        const isAuth = rolesAllowed.some(_r => roleNames.includes(_r))
         const isSysadmin = roleNames.includes(Roles.ADMIN);
 
         if(!isAuth && !isSysadmin) throw createHttpError(403, 'Usuario no autorizado')

@@ -6,7 +6,7 @@ export const checkinFiltersValidator = [
   query("dateTo").optional().isISO8601().withMessage("Fecha hasta inválida"),
 
   query("timeFrom").optional().matches(/^([01]\d|2[0-3]):([0-5]\d)$/).withMessage("Hora desde inválida"),
-  query("timeFrom").optional().matches(/^([01]\d|2[0-3]):([0-5]\d)$/).withMessage("Hora hasta inválida"),
+  query("timeTo").optional().matches(/^([01]\d|2[0-3]):([0-5]\d)$/).withMessage("Hora hasta inválida"),
 
   query("userId").optional().notEmpty().withMessage("ID de usuario vacio")
 ]

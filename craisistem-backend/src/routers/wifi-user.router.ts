@@ -5,11 +5,11 @@ import { WifiUserController } from "../controllers/wifi-user.controller";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
 import { uploadCSV } from "../middlewares/multer.middleware";
 import { UserRepository } from "../repository/user.repository";
-import { WifiAssignment } from "../models/wifi-assignment.entity";
 import { WifiAssignmentRepository } from "../repository/wifi-assignment.repository";
 import { Roles } from "../utils/roles.constant";
 import { validatePagination } from "../validators/comon-validator";
 import { validathor } from "../middlewares/validathor.middleware";
+import { wifiAssignValidator } from "../validators/loan.validator";
 
 const wifiUserRepository = new WifiUserRepository
 const userRepository = new UserRepository
@@ -42,6 +42,8 @@ wifiUserRouter.post(
   '/assign',
   authMiddleware.authentication,
   authMiddleware.authorization(Roles.LIBRARIAN),
+  wifiAssignValidator,
+  validathor,
   wifiUserController.assingToUser
 )
 

@@ -52,7 +52,7 @@ export default function LockerLoanDialog({ open, locker, onClose, onConfirm }: P
       await onConfirm(user.id, locker.id);
       handleClose();
     } catch (err: any) {
-      setError(err.message || "Error al procesar el préstamo");
+      setError(err?.response?.data?.message || err?.response?.data?.errors?.[0]?.message || err.message || "Error al procesar el préstamo");
     } finally {
       setLoading(false);
     }

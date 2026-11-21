@@ -63,6 +63,7 @@ export const EditDeviceModal = ({ device, open, onClose, onSave, isLoading }: Pr
               <Select value={form.state || ''} label="Estado" onChange={handleChange('state')}>
                 <MenuItem value="free">Disponible</MenuItem>
                 <MenuItem value="occupied">Ocupado</MenuItem>
+                <MenuItem value="maintenance">Mantenimiento</MenuItem>
               </Select>
             </FormControl>
           </Stack>

@@ -38,7 +38,7 @@ function LoginView() {
     if (token) {
       localStorage.setItem("token", token);
       queryClient.invalidateQueries({ queryKey: ['whoami'] });
-      navigate("/learning-center/prestamos");
+      navigate("/");
     }
 
     if (errorParam) {
@@ -56,7 +56,10 @@ function LoginView() {
   // Manejador para disparar errores del login temporal
   useEffect(() => {
     if (loginError) {
-      const message = loginError instanceof Error ? loginError.message : "Credenciales incorrectas, intente de nuevo.";
+      const message =
+        (loginError as any)?.response?.data?.message ||
+        (loginError as any)?.response?.data?.errors?.[0]?.message ||
+        "Credenciales incorrectas, intente de nuevo.";
       toast.error(message, { toastId: "login-error" });
     }
   }, [loginError]);

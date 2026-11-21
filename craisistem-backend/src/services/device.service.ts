@@ -1,5 +1,4 @@
 import createHttpError from "http-errors";
-import PostgresDataSource from "../configs/db.config"
 import { Device } from "../models/device.entity"
 import { TCreateDevice, TDeviceFilters, TUpdateDevice } from "../models/types/IDevice";
 import { DeviceRepository } from "../repository/device.repository";
@@ -11,7 +10,12 @@ export class DeviceService {
   ) {}
 
   public save = async (createDevice: TCreateDevice) => {
-    const device: Device = Object.assign(new Device(), createDevice);
+    const device = new Device();
+    device.brand = createDevice.brand
+    device.section = createDevice.section
+    device.model = createDevice.model
+    device.inventory = createDevice.inventory
+    device.operatingSystem = createDevice.operatingSystem
     device.state = ResourceStates.FREE
     
     await this.deviceRepository.save(device)
@@ -21,13 +25,11 @@ public update = async (deviceId: number, updateData: TUpdateDevice): Promise<voi
 
   const device = await this.deviceRepository.findById(deviceId);
   if (!device) throw createHttpError(404, 'Equipo no encontrado');
+  // Solo se permiten estos campos: evita que el cliente sobrescriba el id u otras columnas
+  const allowed: (keyof TUpdateDevice)[] = ['brand', 'state', 'section', 'model', 'inventory', 'operatingSystem'];
   const cleanData = Object.fromEntries(
-    Object.entries(updateData).filter(([_, v]) => v !== undefined)
+    Object.entries(updateData ?? {}).filter(([k, v]) => allowed.includes(k as keyof TUpdateDevice) && v !== undefined)
   );
-
-  if (cleanData.state) {
-    device.state = cleanData.state as ResourceStates;
-  }
 
   Object.assign(device, cleanData);
 

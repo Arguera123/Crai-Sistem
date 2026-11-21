@@ -5,7 +5,7 @@ import createHttpError from "http-errors";
 import { toUserResponse } from "../mappers/toUserResponse";
 import { Roles } from "../utils/roles.constant";
 import { RoleRepository } from "../repository/role.repository";
-import axios from "axios";
+import { UserStates } from "../utils/states.constant";
 import { TUserFilters } from "../models/types/ISearchFilters";
 import { toUserData } from "../mappers/toUserData";
 
@@ -30,7 +30,10 @@ export class UserService {
   public register = async (userData: TRegisterForm) => {
     const { id } = userData
     const userExist = await this.userRepository.findById(id)
-    if (userExist) throw createHttpError(409, "User already exist!")
+    if (userExist) throw createHttpError(409, "Ya existe un usuario con ese id")
+
+    const emailExist = await this.userRepository.findByEmail(userData.email)
+    if (emailExist) throw createHttpError(409, "Ya existe un usuario con ese correo")
 
     const userRole = await this.roleRepository.findByName(Roles.USER)
     if(!userRole) throw createHttpError(500, 'Error interno del servidor')
@@ -38,7 +41,8 @@ export class UserService {
     const userToSave = toUserData(userData)
     userToSave.roles = [userRole];
     userToSave.faculty = "N/A"
-      
+    userToSave.state = UserStates.ACTIVE
+
     await this.userRepository.save(userToSave);
   }
 
@@ -70,6 +74,7 @@ export class UserService {
 
   public findById = async (id: string) => {
     const user = await this.userRepository.findById(id);
+    if (!user) throw createHttpError(404, "Usuario no encontrado");
 
     return toUserResponse(user);
   };
@@ -79,6 +84,7 @@ export class UserService {
     if (!user) throw createHttpError(404, "Usuario no encontrado");
 
     const hasRole = user.roles.some((r) => r.name === roleName);
+    if (hasRole) throw createHttpError(409, "El usuario ya posee este rol");
 
     const role = await this.roleRepository.findByName(roleName as Roles);
     if (!role) throw createHttpError(404, "Rol no encontrado");

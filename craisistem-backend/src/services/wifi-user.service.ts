@@ -34,10 +34,15 @@ export class WifiUserService {
     const currentYear = now.getFullYear();
     const expirationDate = new Date(currentYear, 11, 31);
 
-    const users: WifiUser[] = rows.map((row) => {
+    const validRows = rows.filter((row) => row?.id && row?.password && String(row.id).trim().length <= 8);
+    if (validRows.length === 0) {
+      throw createHttpError(400, "El CSV debe tener las columnas 'id' y 'password' con al menos una fila valida");
+    }
+
+    const users: WifiUser[] = validRows.map((row) => {
       const user = new WifiUser();
-      user.id = row.id;
-      user.password = row.password;
+      user.id = String(row.id).trim();
+      user.password = String(row.password).trim();
       user.expirationDate = expirationDate;
       return user;
     });
@@ -57,8 +62,8 @@ export class WifiUserService {
 
     return {
       inserted,
-      skipped,
-      total: users.length,
+      skipped: skipped + (rows.length - validRows.length),
+      total: rows.length,
       users,
     };
   };

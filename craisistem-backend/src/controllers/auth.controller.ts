@@ -16,7 +16,7 @@ export class AuthController {
     try {
       const user: TRegisterForm = req.body;
       await this.authService.register(user);
-      res.status(201).json({ message: "User registered" });
+      res.status(201).json({ message: "Usuario registrado" });
     } catch (err) {
       next(err);
     }

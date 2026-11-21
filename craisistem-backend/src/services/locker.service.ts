@@ -30,7 +30,7 @@ export class LockerService {
     }
   }
 
-  public findById = async (id : string) => {
-    return await this.findById(id)
+  public findById = async (id : number) => {
+    return await this.lockerRepository.findById(id)
   }
 }

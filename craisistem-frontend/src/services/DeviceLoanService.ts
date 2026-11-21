@@ -29,9 +29,9 @@ export const getActiveDeviceLoansService = async () => {
   try {
     const { data } = await api.get<TPaginatedResponse<TDeviceLoanResponse>>("/device-loan", {
       params: {
-        hasDevice: true,
         hasCharge: true,
-        hasRelease: false
+        hasRelease: false,
+        limit: 200
       }
     })
 

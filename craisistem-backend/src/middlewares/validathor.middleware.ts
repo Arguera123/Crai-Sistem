@@ -7,7 +7,8 @@ export const validathor = (req: Request, res: Response, next: NextFunction) => {
   // ! Bad Request
   if (!errors.isEmpty()) {
     res.status(400).json({
-      errors: errors.array().map((_e: FieldValidationError) => ({
+      // Solo el primer error de cada campo, para no repetir mensajes
+      errors: errors.array({ onlyFirstError: true }).map((_e: FieldValidationError) => ({
         field: _e.path,
         message: _e.msg,
       })),

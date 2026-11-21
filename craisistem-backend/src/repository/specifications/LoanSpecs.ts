@@ -132,7 +132,8 @@ export const LoanSpecs = {
       const orderMap: Record<string, string> = {
         date: "loan.date",
         user: "user.lastName",
-        device: "device.name",
+        device: "device.id",
+        locker: "locker.id",
         chargeTime: "charge.startTime",
         releaseTime: "release.endTime"
       };

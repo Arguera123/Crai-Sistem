@@ -47,7 +47,7 @@ export type TDeviceFilters = Partial<{
   state: string,
   section: string,
   model: string,
-  inventary: string,
+  inventory: string,
   operatingSystem: "windows" | "linux" | "mac";
   page: number,
   limit: number
