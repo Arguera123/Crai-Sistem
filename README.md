@@ -6,6 +6,7 @@ Sistema web del CRAI — Biblioteca P. Florentino Idoate S.J. (UCA) para la gest
 
 | Documento | Contenido |
 |-----------|-----------|
+| [docs/INSTALACION.md](docs/INSTALACION.md) | Guía de instalación: desarrollo local, servidor con Docker, configuración de Microsoft, respaldos y solución de problemas. |
 | [docs/API.md](docs/API.md) | Documentación técnica: arquitectura, instalación, variables de entorno, autenticación, y cada endpoint con parámetros, body, respuestas y errores. |
 | [docs/MANUAL_USUARIO.md](docs/MANUAL_USUARIO.md) | Manual de usuario por rol, con indicaciones de dónde tomar cada captura de pantalla. |
 | [docs/CORRECCIONES.md](docs/CORRECCIONES.md) | Fallas encontradas en la revisión, correcciones aplicadas y recomendaciones pendientes. |
@@ -26,4 +27,4 @@ cp .env.template .env        # completar los valores (TOKEN_SECRET, ADMIN_EMAIL,
 docker compose up -d --build
 ```
 
-Para desarrollo local, ver la sección 2 de [docs/API.md](docs/API.md).
+Guía completa (desarrollo local y producción): [docs/INSTALACION.md](docs/INSTALACION.md).

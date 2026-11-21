@@ -75,6 +75,8 @@ Flujo de una petición: `router → authentication → authorization(rol) → va
 
 ## 2. Instalación y ejecución
 
+> La guía paso a paso está en [INSTALACION.md](INSTALACION.md). Aquí solo un resumen.
+
 ### Desarrollo local
 
 Requisitos: Node.js 20+, PostgreSQL 16.
